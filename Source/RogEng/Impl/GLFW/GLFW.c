@@ -4,18 +4,33 @@
 #include <glfw/glfw3.h>
 #include <stdio.h>
 
-// GLFW key callback function
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+// Multithreaded key callback function
+static void multithreaded_key_callback(va_list args)
 {
-   // TODO: Instead of simply exiting, spawn new thread
-   if (re_event_queue_idle() == RE_FALSE) return;
+   // GLFWwindow* window;
+   // int key, scancode, action, mods;
+   GLFWwindow* window = va_arg(args, GLFWwindow*);
+   int key      = va_arg(args, int);
+   int scancode = va_arg(args, int);
+   int action   = va_arg(args, int);
+   int mods     = va_arg(args, int);
+
+   while (!re_event_queue_idle()) {}; // Wait until thread isnt being written to
+
    // Construct re_event_keyboard_t
    re_event_keyboard_t event = { 0 };
-   if (action == GLFW_PRESS) { event.type = KEYDOWN; }
+   if      (action == GLFW_PRESS) { event.type = KEYDOWN; }
    else if (action == GLFW_RELEASE) { event.type = KEYUP; }
    else if (action == GLFW_REPEAT)  { event.type = REPEAT; }
    event.key = re_glfw_to_keycode(key);
    re_event_create_key(&event);
+
+}
+
+// GLFW key callback function
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+   re_create_thread(multithreaded_key_callback, window, key, scancode, action, mods);
 }
 
 void re_glfw_init()

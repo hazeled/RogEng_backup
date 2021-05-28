@@ -1,3 +1,8 @@
+/* TODO:
+   Some impl functions are pointed to by #define,
+   whereas some are pointed to by re_func_void
+*/
+
 #pragma once
 
 #pragma region Documentation
@@ -265,11 +270,12 @@ extern "C" {
 #pragma endregion
 
 #pragma region Includes
-#include <stdint.h> // Standard types
-#include <stdlib.h> // Malloc, free
-#include <assert.h> // Assert
-#include <string.h> // Memcpy
-#include <stdio.h>  // Printf
+#include <stdint.h>  // Standard types
+#include <stdlib.h>  // Malloc, free
+#include <assert.h>  // Assert
+#include <string.h>  // Memcpy
+#include <stdio.h>   // Printf
+#include <stdarg.h> // va_list
 
 #ifdef RE_IMPL_GLFW
 #include <GLFW/glfw3.h>
@@ -297,6 +303,7 @@ typedef const char* cstr; // Const string, not c-string
 typedef char        b8;   // Single byte boolean
 
 typedef void (*re_func_void)();
+typedef void (*re_func_thread)(va_list args);
 
 typedef enum re_keycode
 {
@@ -555,7 +562,7 @@ b8           re_key_pressed                     (re_keycode key);            // 
 // Internal event functions
 void      re_event_setup                        ();                           // Event.c
 b8        re_event_queue_empty                  ();                           // Event.c
-b8        re_event_queue_idle                   ();                           // Event.c, will be removed
+b8        re_event_queue_idle                   ();                           // Event.c
 void      re_raise_event                        (re_event_t* event);          // Event.c
 void      re_poll_event                         (re_event_t* event);          // Event.c
 void      re_event_create_key                   (re_event_keyboard_t* key);   // Event.c
@@ -563,9 +570,13 @@ void      re_event_loop                         ();                           //
 #pragma endregion
 
 #pragma region Implementation Specific
+// Implementation specific defines
+#define re_create_thread(func, ...)                  re_impl_create_thread_void(func, __VA_ARGS__);
+
 // Implementation-specific functions
 #pragma region Windows
 #ifdef RE_IMPL_WINDOWS
+void       re_impl_create_thread_void                (re_func_thread func, ...);
 // Internal function to pop up a message, mostly used for errors
 void       re_impl_pop_up_message                    (unsigned short* title, unsigned short* msg);
 #define    re_pop_up_message(TITLE, MSG)             re_impl_pop_up_message(L ## TITLE, L ## MSG);

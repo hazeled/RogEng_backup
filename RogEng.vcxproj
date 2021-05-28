@@ -172,6 +172,7 @@
     <ClCompile Include="Source\RogEng\Impl\GLFW\GLFW.c" />
     <ClCompile Include="Source\RogEng\Impl\Windows\DynArray.c" />
     <ClCompile Include="Source\RogEng\Impl\Windows\PopUp.c" />
+    <ClCompile Include="Source\RogEng\Impl\Windows\Thread.c" />
     <ClCompile Include="Source\RogEng\Input.c" />
     <ClCompile Include="Source\RogEng\Main.c" />
     <ClCompile Include="Source\RogEng\NewFrame.c" />

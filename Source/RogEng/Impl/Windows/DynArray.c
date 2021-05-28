@@ -11,6 +11,14 @@
 static void move_elem(re_dyn_array_t* arr, u32 src, u32 dst)
     { memcpy(re_dynp_access_pointer(arr, src), re_dynp_access_pointer(arr, dst), arr->size); }
 
+// Realloc too unreliable
+static void reallocate(void** ptr, size_t size)
+{
+   void* new_ptr = malloc(size);
+   memcpy(new_ptr, *ptr, size);
+   *ptr = new_ptr;
+}
+
 re_dyn_array_t re_dyn_array_impl_new(size_t size)
 {
    re_dyn_array_t retarr = { 0 };
@@ -47,14 +55,11 @@ void re_dyn_array_impl_grow_rate(re_dyn_array_t* arr, u8 rate)
 
 void re_dyn_array_impl_grow(re_dyn_array_t* arr)
 {
+   while (arr->state != IDLE) {};
    arr->state = GROWING;
-   void* new_data = realloc(arr->data, arr->size * (arr->length_allocated + arr->grow_length));
-   if (new_data != NULL)
-   {
-      arr->data = new_data;
-      arr->length_allocated += arr->grow_length;
-   }
-   else
+   // void* new_data = realloc(arr->data, arr->size * (arr->length_allocated + arr->grow_length));
+   reallocate(&arr->data, arr->size * (arr->length_allocated + arr->grow_length));
+   if (arr->data == NULL)
    {
       RE_THROW_ERROR("Dynamic array out of space!!");
    }
@@ -63,16 +68,13 @@ void re_dyn_array_impl_grow(re_dyn_array_t* arr)
 
 void re_dyn_array_impl_degrow(re_dyn_array_t* arr)
 {
+   while (arr->state != IDLE) {};
    arr->state = DEGROWING;
-   void* new_data = realloc(arr->data, arr->size * (arr->length_allocated - arr->grow_length));
-   if (new_data != NULL)
+   // void* new_data = realloc(arr->data, arr->size * (arr->length_allocated - arr->grow_length));
+   reallocate(&arr->data, arr->size * (arr->length_allocated - arr->grow_length));
+   if (arr->data == NULL)
    {
-      arr->data = new_data;
-      arr->length_allocated -= arr->grow_length;
-   }
-   else
-   {
-      RE_THROW_ERROR("Error degrowing dynamic array!!");
+      RE_THROW_ERROR("Dynamic array out of space!!");
    }
    arr->state = IDLE;
 }

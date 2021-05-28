@@ -1,2 +1,0 @@
-C:\Users\User\source\repos\RogEng\x64\Debug\RogEng.pdb
-C:\Users\User\source\repos\RogEng\RogEng\x64\Debug\RogEng.pdb

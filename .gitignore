@@ -1,0 +1,12 @@
+
+*.obj
+*.obj
+*.idb
+*.log
+*.pdb
+*.tlog
+*.recipe
+x64/
+x32/
+Debug/
+enc_temp_folder/
