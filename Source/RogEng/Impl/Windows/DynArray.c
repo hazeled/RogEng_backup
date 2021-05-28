@@ -15,8 +15,6 @@ static void move_elem(re_dyn_array_t* arr, u32 src, u32 dst)
 static void reallocate(void** ptr, size_t size)
 {
    void* new_ptr = malloc(size);
-   memcpy(new_ptr, *ptr, size);
-   *ptr = new_ptr;
 }
 
 re_dyn_array_t re_dyn_array_impl_new(size_t size)
@@ -63,6 +61,7 @@ void re_dyn_array_impl_grow(re_dyn_array_t* arr)
    {
       RE_THROW_ERROR("Dynamic array out of space!!");
    }
+   arr->length_allocated += arr->grow_length;
    arr->state = IDLE;
 }
 
@@ -76,6 +75,7 @@ void re_dyn_array_impl_degrow(re_dyn_array_t* arr)
    {
       RE_THROW_ERROR("Dynamic array out of space!!");
    }
+   arr->length_allocated -= arr->grow_length;
    arr->state = IDLE;
 }
 

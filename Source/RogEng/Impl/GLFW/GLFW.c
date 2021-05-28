@@ -19,12 +19,11 @@ static void multithreaded_key_callback(va_list args)
 
    // Construct re_event_keyboard_t
    re_event_keyboard_t event = { 0 };
-   if      (action == GLFW_PRESS) { event.type = KEYDOWN; }
+   if      (action == GLFW_PRESS)   { event.type = KEYDOWN; }
    else if (action == GLFW_RELEASE) { event.type = KEYUP; }
    else if (action == GLFW_REPEAT)  { event.type = REPEAT; }
    event.key = re_glfw_to_keycode(key);
    re_event_create_key(&event);
-
 }
 
 // GLFW key callback function

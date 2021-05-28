@@ -1,8 +1,3 @@
-/* TODO:
-   Some impl functions are pointed to by #define,
-   whereas some are pointed to by re_func_void
-*/
-
 #pragma once
 
 #pragma region Documentation
@@ -13,8 +8,9 @@
         * Finish rewriting input system
         * Only call update on keypress
         * Document:
-            - re_dyn_access_pointer
             - re_dyn_loop / re_dynp_loop
+        *  Some impl functions are pointed to by #define,
+           whereas some are pointed to by re_func_void
 
     Planned:
         * Animation system
@@ -275,7 +271,7 @@ extern "C" {
 #include <assert.h>  // Assert
 #include <string.h>  // Memcpy
 #include <stdio.h>   // Printf
-#include <stdarg.h> // va_list
+#include <stdarg.h>  // va_list
 
 #ifdef RE_IMPL_GLFW
 #include <GLFW/glfw3.h>
@@ -516,7 +512,7 @@ typedef struct  re_dyn_array_t                  re_dyn_array_t;
 #define      re_dyn_pop_back(ARR)               re_dyn_array_impl_pop_back(&ARR)
 #define      re_dyn_remove(ARR, INDEX)          re_dyn_array_impl_remove(&ARR, INDEX)
 #define      re_dyn_access(ARR, INDEX, TYPE)    *(TYPE*)(re_dyn_array_impl_access(&ARR, INDEX))
-#define      re_dyn_access_pointer(ARR, INDEX)  re_dyn_array_impl_access(&ARR, INDEX)
+// #define      re_dyn_access_pointer(ARR, INDEX)  re_dyn_array_impl_access(&ARR, INDEX)
 
 #define      re_dynp_array_empty(ARR)           re_dyn_array_impl_empty(ARR);
 #define      re_dynp_array_free(ARR)            re_dyn_array_impl_free(ARR);
