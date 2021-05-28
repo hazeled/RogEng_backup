@@ -5,12 +5,19 @@
 
     TODO:
         * Write input system documentation
+
         * Finish rewriting input system
+
         * Only call update on keypress
+
         * Document:
             - re_dyn_loop / re_dynp_loop
+
         *  Some impl functions are pointed to by #define,
            whereas some are pointed to by re_func_void
+
+        * Instead of many different states for dynamic array, have
+          a single b8
 
     Planned:
         * Animation system
@@ -486,6 +493,8 @@ typedef struct re_engine_t
 
 typedef enum re_dyn_array_state_e
 {
+   READING,
+   WRITING,
    GROWING,
    DEGROWING,
    IDLE,

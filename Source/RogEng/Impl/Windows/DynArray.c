@@ -48,13 +48,16 @@ b8 re_dyn_array_impl_empty(re_dyn_array_t* arr)
 
 void re_dyn_array_impl_grow_rate(re_dyn_array_t* arr, u8 rate)
 {
+   while (arr->state != IDLE) {};
+   arr->state = WRITING;
    arr->grow_length = rate;
+   arr->state = IDLE;
 }
 
 void re_dyn_array_impl_grow(re_dyn_array_t* arr)
 {
-   while (arr->state != IDLE) {};
-   arr->state = GROWING;
+   // while (arr->state != IDLE) {};
+   // arr->state = GROWING;
    // void* new_data = realloc(arr->data, arr->size * (arr->length_allocated + arr->grow_length));
    reallocate(&arr->data, arr->size * (arr->length_allocated + arr->grow_length));
    if (arr->data == NULL)
@@ -62,13 +65,13 @@ void re_dyn_array_impl_grow(re_dyn_array_t* arr)
       RE_THROW_ERROR("Dynamic array out of space!!");
    }
    arr->length_allocated += arr->grow_length;
-   arr->state = IDLE;
+   // arr->state = IDLE;
 }
 
 void re_dyn_array_impl_degrow(re_dyn_array_t* arr)
 {
-   while (arr->state != IDLE) {};
-   arr->state = DEGROWING;
+   // while (arr->state != IDLE) {};
+   // arr->state = DEGROWING;
    // void* new_data = realloc(arr->data, arr->size * (arr->length_allocated - arr->grow_length));
    reallocate(&arr->data, arr->size * (arr->length_allocated - arr->grow_length));
    if (arr->data == NULL)
@@ -76,11 +79,13 @@ void re_dyn_array_impl_degrow(re_dyn_array_t* arr)
       RE_THROW_ERROR("Dynamic array out of space!!");
    }
    arr->length_allocated -= arr->grow_length;
-   arr->state = IDLE;
+   // arr->state = IDLE;
 }
 
 void re_dyn_array_impl_push_back(re_dyn_array_t* arr, void* data)
 {
+   while (arr->state != IDLE) {};
+   arr->state = WRITING;
    if (arr->length == arr->length_allocated)
    {
       re_dyn_array_impl_grow(arr);
@@ -88,11 +93,14 @@ void re_dyn_array_impl_push_back(re_dyn_array_t* arr, void* data)
    void* new_data_location = (char*)(arr->data) + (arr->length * arr->size);
    memcpy(new_data_location, &data, arr->size);
    arr->length++;
+   arr->state = IDLE;
 }
 
 // Near identical copy of push_back except it pushes by reference
 void re_dyn_array_impl_push_back_ref(re_dyn_array_t* arr, void* data)
 {
+   while (arr->state != IDLE) {};
+   arr->state = WRITING;
    if (arr->length == arr->length_allocated)
    {
       re_dyn_array_impl_grow(arr);
@@ -100,10 +108,13 @@ void re_dyn_array_impl_push_back_ref(re_dyn_array_t* arr, void* data)
    void* new_data_location = (char*)(arr->data) + (arr->length * arr->size);
    memcpy(new_data_location, data, arr->size);
    arr->length++;
+   arr->state = IDLE;
 }
 
 void re_dyn_array_impl_pop_back(re_dyn_array_t* arr)
 {
+   while (arr->state != IDLE) {};
+   arr->state = WRITING;
    if (arr->length == 0)
    {
       return;
@@ -113,10 +124,13 @@ void re_dyn_array_impl_pop_back(re_dyn_array_t* arr)
       re_dyn_array_impl_degrow(arr);
    }
    arr->length--;
+   arr->state = IDLE;
 }
 
 void re_dyn_array_impl_remove(re_dyn_array_t* arr, u32 index)
 {
+   while (arr->state != IDLE) {};
+   arr->state = WRITING;
    if (arr->length == 0) { return; }
 
    arr->length--;
@@ -131,15 +145,19 @@ void re_dyn_array_impl_remove(re_dyn_array_t* arr, u32 index)
    {
       re_dyn_array_impl_degrow(arr);
    }
+   arr->state = IDLE;
 }
 
 void* re_dyn_array_impl_access(re_dyn_array_t* arr, u32 index)
 {
+   while (arr->state != IDLE) {};
+   arr->state = READING;
    if (index < 0 || index >= arr->length)
    {
       printf("DynArray: Index out of bounds!!\n");
       return NULL;
    }
+   arr->state = IDLE;
    return (char*)arr->data + (index * arr->size);
 }
 
