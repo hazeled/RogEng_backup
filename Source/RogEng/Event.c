@@ -30,7 +30,7 @@ void re_raise_event(re_event_t* event)
 void re_poll_event(re_event_t* event)
 {
     *event = re_dyn_access(event_queue, 0, re_event_t);
-    re_dyn_pop_back(event_queue);
+    re_dyn_pop_front(event_queue);
 }
 
 void re_event_create_key(re_event_keyboard_t* key)

@@ -8,7 +8,7 @@ void re_event_loop()
       re_poll_event(&event);
       if (event.key.type == KEYDOWN)
       {
-         printf("Key pressed!\n");
+         printf("Key pressed! Keycode: %d\n", event.key.key);
       }
    }
 }

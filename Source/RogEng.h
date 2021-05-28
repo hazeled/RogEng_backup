@@ -16,8 +16,8 @@
         *  Some impl functions are pointed to by #define,
            whereas some are pointed to by re_func_void
 
-        * Instead of many different states for dynamic array, have
-          a single b8
+        * Instead of many different states for dynamic array blocking,
+          have a single b8 determine if the array is being used
 
     Planned:
         * Animation system
@@ -519,6 +519,7 @@ typedef struct  re_dyn_array_t                  re_dyn_array_t;
 #define      re_dyn_push_back(ARR, VAL)         re_dyn_array_impl_push_back(&ARR, VAL)
 #define      re_dyn_push_back_ref(ARR, VAL)     re_dyn_array_impl_push_back_ref(&ARR, &VAL)
 #define      re_dyn_pop_back(ARR)               re_dyn_array_impl_pop_back(&ARR)
+#define      re_dyn_pop_front(ARR)              re_dyn_remove(ARR, 0);
 #define      re_dyn_remove(ARR, INDEX)          re_dyn_array_impl_remove(&ARR, INDEX)
 #define      re_dyn_access(ARR, INDEX, TYPE)    *(TYPE*)(re_dyn_array_impl_access(&ARR, INDEX))
 // #define      re_dyn_access_pointer(ARR, INDEX)  re_dyn_array_impl_access(&ARR, INDEX)
@@ -529,6 +530,7 @@ typedef struct  re_dyn_array_t                  re_dyn_array_t;
 #define      re_dynp_push_back(ARR, VAL)        re_dyn_array_impl_push_back(ARR, VAL)
 #define      re_dynp_push_back_ref(ARR, VAL)    re_dyn_array_impl_push_back_ref(ARR, &VAL)
 #define      re_dynp_pop_back(ARR)              re_dyn_array_impl_pop_back(ARR)
+#define      re_dynp_pop_front(ARR)             re_dynp_remove(ARR, 0);
 #define      re_dynp_remove(ARR, INDEX)         re_dyn_array_impl_remove(ARR, INDEX)
 #define      re_dynp_access(ARR, INDEX, TYPE)   *(TYPE*)(re_dyn_array_impl_access(ARR, INDEX))
 #define      re_dynp_access_pointer(ARR, INDEX) re_dyn_array_impl_access(ARR, INDEX)
