@@ -1,0 +1,13 @@
+﻿  CreateEngine.c
+  Event.c
+  EventLoop.c
+  GLFW.c
+  DynArray.c
+  PopUp.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\User\source\repos\RogEng\Include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+  Input.c
+  Main.c
+  NewFrame.c
+  SetGetEngine.c
+  RogEng.vcxproj -> C:\Users\User\source\repos\RogEng\x64\Release\RogEng.lib
