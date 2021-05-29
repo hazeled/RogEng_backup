@@ -15,6 +15,9 @@ static void move_elem(re_dyn_array_t* arr, u32 src, u32 dst)
 static void reallocate(void** ptr, size_t size)
 {
    void* new_ptr = malloc(size);
+   memcpy(new_ptr, ptr, size);
+   free(*ptr);
+   *ptr = new_ptr;
 }
 
 re_dyn_array_t re_dyn_array_impl_new(size_t size)
@@ -148,17 +151,24 @@ void re_dyn_array_impl_remove(re_dyn_array_t* arr, u32 index)
    arr->state = IDLE;
 }
 
-void* re_dyn_array_impl_access(re_dyn_array_t* arr, u32 index)
+// Accesses without checking for array state
+void* __re_dyn_array_impl_access(re_dyn_array_t* arr, u32 index)
 {
-   while (arr->state != IDLE) {};
-   arr->state = READING;
    if (index < 0 || index >= arr->length)
    {
       printf("DynArray: Index out of bounds!!\n");
       return NULL;
    }
-   arr->state = IDLE;
    return (char*)arr->data + (index * arr->size);
+}
+
+void* re_dyn_array_impl_access(re_dyn_array_t* arr, u32 index)
+{
+
+   while (arr->state != IDLE) {};
+   arr->state = READING;
+   return __re_dyn_array_impl_access(arr, index);
+   arr->state = IDLE;
 }
 
 #endif

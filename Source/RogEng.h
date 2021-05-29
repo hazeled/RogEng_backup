@@ -522,7 +522,6 @@ typedef struct  re_dyn_array_t                  re_dyn_array_t;
 #define      re_dyn_pop_front(ARR)              re_dyn_remove(ARR, 0);
 #define      re_dyn_remove(ARR, INDEX)          re_dyn_array_impl_remove(&ARR, INDEX)
 #define      re_dyn_access(ARR, INDEX, TYPE)    *(TYPE*)(re_dyn_array_impl_access(&ARR, INDEX))
-// #define      re_dyn_access_pointer(ARR, INDEX)  re_dyn_array_impl_access(&ARR, INDEX)
 
 #define      re_dynp_array_empty(ARR)           re_dyn_array_impl_empty(ARR);
 #define      re_dynp_array_free(ARR)            re_dyn_array_impl_free(ARR);
@@ -533,7 +532,6 @@ typedef struct  re_dyn_array_t                  re_dyn_array_t;
 #define      re_dynp_pop_front(ARR)             re_dynp_remove(ARR, 0);
 #define      re_dynp_remove(ARR, INDEX)         re_dyn_array_impl_remove(ARR, INDEX)
 #define      re_dynp_access(ARR, INDEX, TYPE)   *(TYPE*)(re_dyn_array_impl_access(ARR, INDEX))
-#define      re_dynp_access_pointer(ARR, INDEX) re_dyn_array_impl_access(ARR, INDEX)
 
 re_dyn_array_t re_dyn_array_impl_new            (size_t size);                     // Implementation dependant
 b8           re_dyn_array_impl_empty            (re_dyn_array_t* arr);             // Implementation dependant
@@ -546,6 +544,8 @@ void         re_dyn_array_impl_remove           (re_dyn_array_t* arr, u32 index)
 void         re_dyn_array_impl_grow             (re_dyn_array_t* arr);             // Implementation dependant
 void         re_dyn_array_impl_degrow           (re_dyn_array_t* arr);             // Implementation dependant
 void*        re_dyn_array_impl_access           (re_dyn_array_t* arr, u32 index);  // Implementation dependant
+// like re_dyn_array_impl_access but dont check arr->state
+void*      __re_dyn_array_impl_access           (re_dyn_array_t* arr, u32 index);  // Implementation dependant
 #pragma endregion
 
 #pragma region Engine Functions
@@ -563,6 +563,7 @@ void          re_new_frame                      ();                           //
 #pragma region Input
 // Input functions
 b8           re_key_pressed                     (re_keycode key);            // Input.c
+char         re_key_to_char                     (re_keycode key);            // Input.c
 # pragma endregion
 
 #pragma region Events

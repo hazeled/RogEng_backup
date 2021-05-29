@@ -19,6 +19,7 @@ unsigned long __stdcall create_thread(void* thread_info_void)
    thread_info->func(thread_info->args);
    va_end(thread_info->args);
    free(thread_info);
+   return 0;
 }
 
 void re_impl_create_thread_void(re_func_thread func, ...)
