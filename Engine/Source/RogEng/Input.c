@@ -13,7 +13,7 @@ b8 re_key_pressed(re_keycode key)
 char re_key_to_char(re_keycode key)
 {
    char ret;
-   switch (re_keycode)
+   switch (key)
    {
    case RE_KEYCODE_SPACE: ret = ' ';
    case RE_KEYCODE_APOSTROPHE: ret = '\'';
@@ -64,7 +64,7 @@ char re_key_to_char(re_keycode key)
    case RE_KEYCODE_RIGHT_BRACKET: ret = ']';
    case RE_KEYCODE_GRAVE_ACCENT: ret = '`';
    case RE_KEYCODE_ENTER: ret = '\n';
-   case RE_KEYCODE_TAB: ret = '\t'
+   case RE_KEYCODE_TAB: ret = '\t';
    }
    // Check if shift or caps lock?
    return ret;

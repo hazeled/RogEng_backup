@@ -1,7 +1,7 @@
 #include "../../../RogEng.h"
 
 #ifdef RE_IMPL_GLFW
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #include <stdio.h>
 
 // Multithreaded key callback function
