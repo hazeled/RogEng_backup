@@ -30,6 +30,11 @@
 
         #define RE_IMPL
 
+    After that, please implement the re_main function, which returns
+    a filled re_app_t. This can be doubled as an initation function for
+    your app
+
+
     All files include RogEng should simply include the headers without the define
 
     You can avoid RogEng hijacking main with the define:
