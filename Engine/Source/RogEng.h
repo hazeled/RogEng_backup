@@ -4,6 +4,9 @@
 /*  RogEng!
 
     TODO:
+        * Library wont compile on window because thread.c
+          is out of date with current rogeng api
+
         * Write input system documentation
 
         * Finish rewriting input system
@@ -311,7 +314,7 @@ typedef const char* cstr; // Const string, not c-string
 typedef char        b8;   // Single byte boolean
 
 typedef void (*re_func_void)();
-typedef void (*re_func_thread)(va_list args);
+typedef void (*re_func_thread)(void* args);
 
 typedef enum re_keycode
 {
